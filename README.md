@@ -60,3 +60,30 @@ yarn build
 - `on` - подписка на событие.
 - `emit` - инициализация события.
 - `trigger` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие.
+
+#### Класс Model
+Базовая модель, чтобы можно было отличить ее от простых объектов с данными.
+Методы:
+- `emit` - сообщает всем, что модель поменялась.
+
+#### Класс Component
+Необходим для создания компонентов слоя представления. Предоставляет базовые методы для работы с HTML-элементами.
+- toggleClass(element: HTMLElement, className: string, force?: boolean) - переключает класс элемента.
+- protected setText(element: HTMLElement, value: unknown) - устанавливает текстовое содержимое элемента.
+- setDisabled(element: HTMLElement, state: boolean) - изменяет статус блокировки элемента.
+- setHidden(element: HTMLElement) - скрывает элемент.
+- setVisible(element: HTMLElement) - показывает элемент
+- protected setImage(element: HTMLImageElement, src: string, alt?: string) - устанавливает изображение с альтернативным текстом
+- render(data?: Partial<T>): HTMLElement - возвращает корневой DOM-элемент
+
+### Слой данных (Model)
+
+#### Класс Product
+Класс отвечает за описание товара.
+В полях класса хранятся следующие данные:
+- id: string - уникальный идентификатор товара.
+- description: string - описание товара.
+- image: string - ссылка на фотографию товара.
+- title: string - название товара.
+- category: string - категория товара.
+- price: number | null - цена товара.
