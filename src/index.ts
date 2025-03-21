@@ -147,10 +147,9 @@ events.on(
 );
 
 events.on('contacts:submit', () => {
-	appData.order.items = appData.basket;
-	appData.order.total = appData.getTotalPrice();
+	const orderToPost = appData.createOrderToPost();
 	api
-		.orderProducts(appData.order)
+		.orderProducts(orderToPost)
 		.then((result) => {
 			const success = new Success(cloneTemplate(successTemplate), {
 				onClick: () => {

@@ -22,13 +22,12 @@ export class Product extends Model<IProduct> {
 export class WebLarekState extends Model<IAppState> {
 	protected _basket: string[] = [];
 	protected _catalog: Product[];
-	protected _order: IOrder = {
+	protected _order: Omit<IOrder, "items"> = {
 		payment: '',
 		address: '',
 		email: '',
 		phone: '',
-		total: 0,
-		items: [],
+		total: 0
 	};
 	formErrors: FormErrors = {};
 
@@ -71,10 +70,6 @@ export class WebLarekState extends Model<IAppState> {
 		return this._basket.includes(id);
 	}
 
-	get order(): IOrder {
-		return this._order;
-	}
-
 	clearOrder() {
 		this._order = {
 			payment: '',
@@ -82,7 +77,6 @@ export class WebLarekState extends Model<IAppState> {
 			email: '',
 			phone: '',
 			total: 0,
-			items: [],
 		};
 	}
 
@@ -126,5 +120,11 @@ export class WebLarekState extends Model<IAppState> {
 		this.formErrors = errors;
 		this.events.emit('contactsFormErrors:change', this.formErrors);
 		return Object.keys(errors).length === 0;
+	}
+
+	createOrderToPost(): IOrder {
+		return {
+			...this._order, items: [...this._basket]
+		}
 	}
 }
