@@ -34,7 +34,7 @@ export class FormOrder extends Form<IOrderForm> {
 		if (value === 'card') {
 			this.toggleClass(this._cardButton, 'button_alt-active', true);
 			this.toggleClass(this._cashButton, 'button_alt-active', false);
-		} else {
+		} else if (value === 'cash') {
 			this.toggleClass(this._cardButton, 'button_alt-active', false);
 			this.toggleClass(this._cashButton, 'button_alt-active', true);
 		}
