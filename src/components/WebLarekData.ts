@@ -22,12 +22,12 @@ export class Product extends Model<IProduct> {
 export class WebLarekState extends Model<IAppState> {
 	protected _basket: string[] = [];
 	protected _catalog: Product[];
-	protected _order: Omit<IOrder, "items"> = {
+	protected _order: Omit<IOrder, 'items'> = {
 		payment: '',
 		address: '',
 		email: '',
 		phone: '',
-		total: 0
+		total: 0,
 	};
 	formErrors: FormErrors = {};
 
@@ -123,8 +123,11 @@ export class WebLarekState extends Model<IAppState> {
 	}
 
 	createOrderToPost(): IOrder {
+		const total = this.getTotalPrice();
 		return {
-			...this._order, items: [...this._basket]
-		}
+			...this._order,
+			items: [...this._basket],
+			total,
+		};
 	}
 }
