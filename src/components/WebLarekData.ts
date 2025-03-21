@@ -1,4 +1,11 @@
-import { FormErrors, IAppState, IContactForm, IOrder, IOrderForm, IProduct } from '../types';
+import {
+	FormErrors,
+	IAppState,
+	IContactForm,
+	IOrder,
+	IOrderForm,
+	IProduct,
+} from '../types';
 import { Model } from './base/Model';
 
 export type CatalogChangeEvent = {};
@@ -13,9 +20,9 @@ export class Product extends Model<IProduct> {
 }
 
 export class WebLarekState extends Model<IAppState> {
-	basket: string[] = [];
-	catalog: Product[];
-	order: IOrder = {
+	protected _basket: string[] = [];
+	protected _catalog: Product[];
+	protected _order: IOrder = {
 		payment: '',
 		address: '',
 		email: '',
@@ -25,39 +32,51 @@ export class WebLarekState extends Model<IAppState> {
 	};
 	formErrors: FormErrors = {};
 
-	setCatalog(items: IProduct[]) {
-		this.catalog = items.map((item) => new Product(item, this.events));
-		this.emitChanges('items:changed', { catalog: this.catalog });
+	get catalog(): Product[] {
+		return this._catalog;
+	}
+
+	set catalog(items: IProduct[]) {
+		this._catalog = items.map((item) => new Product(item, this.events));
+		this.emitChanges('items:changed', { catalog: this._catalog });
+	}
+
+	get basket(): string[] {
+		return this._basket;
 	}
 
 	addProduct(id: string) {
-		this.basket.push(id);
+		this._basket.push(id);
 		this.emitChanges('basket:changed');
 	}
 
 	removeProduct(id: string) {
-		this.basket = this.basket.filter((product) => product !== id);
+		this._basket = this._basket.filter((product) => product !== id);
 		this.emitChanges('basket:changed');
 	}
 
 	clearBasket() {
-		this.basket = [];
+		this._basket = [];
 		this.emitChanges('basket:changed');
 	}
 
 	getTotalPrice() {
-		return this.basket.reduce(
-			(a, c) => a + this.catalog.find((it) => it.id === c).price,
+		return this._basket.reduce(
+			(a, c) => a + this._catalog.find((it) => it.id === c).price,
 			0
 		);
 	}
 
 	inBasket(id: string) {
-		return this.basket.includes(id)
+		return this._basket.includes(id);
+	}
+
+	get order(): IOrder {
+		return this._order;
 	}
 
 	clearOrder() {
-		this.order = {
+		this._order = {
 			payment: '',
 			address: '',
 			email: '',
@@ -68,27 +87,27 @@ export class WebLarekState extends Model<IAppState> {
 	}
 
 	setOrderField(field: keyof IOrderForm, value: string) {
-		this.order[field] = value;
+		this._order[field] = value;
 
 		if (this.validateOrder()) {
-			this.events.emit('order:ready', this.order);
+			this.events.emit('order:ready', this._order);
 		}
 	}
 
 	setContactField(field: keyof IContactForm, value: string) {
-		this.order[field] = value;
+		this._order[field] = value;
 
 		if (this.validateContacts()) {
-			this.events.emit('contacts:ready', this.order);
+			this.events.emit('contacts:ready', this._order);
 		}
 	}
 
 	validateOrder() {
 		const errors: typeof this.formErrors = {};
-		if (!this.order.payment) {
+		if (!this._order.payment) {
 			errors.payment = 'Необходимо указать способ оплаты';
 		}
-		if (!this.order.address) {
+		if (!this._order.address) {
 			errors.address = 'Необходимо указать адрес';
 		}
 		this.formErrors = errors;
@@ -98,10 +117,10 @@ export class WebLarekState extends Model<IAppState> {
 
 	validateContacts() {
 		const errors: typeof this.formErrors = {};
-		if (!this.order.email) {
+		if (!this._order.email) {
 			errors.email = 'Необходимо указать эл. почту';
 		}
-		if (!this.order.phone) {
+		if (!this._order.phone) {
 			errors.phone = 'Необходимо указать номер телефона';
 		}
 		this.formErrors = errors;

@@ -178,5 +178,7 @@ events.on('modal:close', () => {
 
 api
 	.getProducts()
-	.then(appData.setCatalog.bind(appData))
+	.then((products) => {
+		appData.catalog = products; 
+})
 	.catch((err) => console.error(err));
