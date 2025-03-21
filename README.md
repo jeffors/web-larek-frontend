@@ -315,3 +315,5 @@ interface IOrderResult { // Заказа на сервера
 type FormErrors = Partial<Record<keyof IOrder, string>>; // ошибки формы 
 
 ```
+
+Ссылка на репозиторий: https://github.com/jeffors/web-larek-frontend.git
