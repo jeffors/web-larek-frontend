@@ -18,16 +18,13 @@ export class FormOrder extends Form<IOrderForm> {
 
 		if (this._cardButton) {
 			this._cardButton.addEventListener('click', () => {
-				// this.toggleClass(this._cardButton, 'button_alt-active');
-				// this.toggleClass(this._cashButton, 'button_alt');
+
 				this.onInputChange('payment', 'card');
 			});
 		}
 
 		if (this._cashButton) {
 			this._cashButton.addEventListener('click', () => {
-				// this.toggleClass(this._cardButton, 'button_alt');
-				// this.toggleClass(this._cashButton, 'button_alt-active');
 				this.onInputChange('payment', 'cash');
 			});
 		}

@@ -20,10 +20,6 @@ import { Success } from './components/common/Success';
 const events = new EventEmitter();
 const api = new WebLarekAPI(CDN_URL, API_URL);
 
-events.onAll(({ eventName, data }) => {
-	console.log(eventName, data);
-});
-
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
@@ -163,7 +159,7 @@ events.on('contacts:submit', () => {
 			});
 
 			modal.render({
-				content: success.render({ description: appData.getTotalPrice() }),
+				content: success.render({ total: appData.getTotalPrice() }),
 			});
 			appData.clearBasket();
 		})

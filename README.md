@@ -64,29 +64,17 @@ yarn build
 #### Класс Model
 Базовая модель, чтобы можно было отличить ее от простых объектов с данными.
 Методы:
-- `emit` - сообщает всем, что модель поменялась.
+- `emitChanges` - сообщает всем, что модель поменялась.
 
 #### Класс Component
 Необходим для создания компонентов слоя представления. Предоставляет базовые методы для работы с HTML-элементами.
-- toggleClass(element: HTMLElement, className: string, force?: boolean) - переключает класс элемента.
-- protected setText(element: HTMLElement, value: unknown) - устанавливает текстовое содержимое элемента.
-- setDisabled(element: HTMLElement, state: boolean) - изменяет статус блокировки элемента.
-- setHidden(element: HTMLElement) - скрывает элемент.
-- setVisible(element: HTMLElement) - показывает элемент
-- protected setImage(element: HTMLImageElement, src: string, alt?: string) - устанавливает изображение с альтернативным текстом
-- render(data?: Partial<T>): HTMLElement - возвращает корневой DOM-элемент
-
-#### Класс WebLarekAPI 
-Класс для работы с бэкендом интернет-магазина.
-- constructor(cdn: string, baseUrl: string, options?: RequestInit) - принимает CDN URL и API URL сервера, а также настройки.
-
-Поля класса:
-- cdn: string - хранит CDN URL
-
-Методы класса:
-- getProducts(): Promise<IProduct[]> -
-получить список товаров с бэкенда
-- orderProducts(order: IOrder): Promise<IOrderResult> - отправить сформированный заказ на бэкенд
+- `toggleClass(element: HTMLElement, className: string, force?: boolean)` - переключает класс элемента.
+- `setText(element: HTMLElement, value: unknown)` - устанавливает текстовое содержимое элемента.
+- `setDisabled(element: HTMLElement, state: boolean)` - изменяет статус блокировки элемента.
+- `setHidden(element: HTMLElement)` - скрывает элемент.
+- `setVisible(element: HTMLElement)` - показывает элемент
+- `setImage(element: HTMLImageElement, src: string, alt?: string)` - устанавливает изображение с альтернативным текстом
+- `render(data?: Partial<T>): HTMLElement` - возвращает корневой DOM-элемент
 
 ### Слой данных (Model)
 Все классы слоёв данных наследуют класс Model.
@@ -94,150 +82,236 @@ yarn build
 #### Класс Product
 Класс отвечает за описание товара.
 В полях класса хранятся следующие данные:
-- id: string - уникальный идентификатор товара.
-- description: string - описание товара.
-- image: string - ссылка на фотографию товара.
-- title: string - название товара.
-- category: string - категория товара.
-- price: number | null - цена товара.
+- `id: string` - уникальный идентификатор товара.
+- `description: string` - описание товара.
+- `image: string` - ссылка на фотографию товара.
+- `title: string` - название товара.
+- `category: string` - категория товара.
+- `price: number | null` - цена товара.
 
 #### Класс WebLarekState
 Класс отвечает за хранение и логику работы с данными магазина.   
 В полях класса хранятся следующие данные: 
-- basket: string[] - массив ID товаров в корзине
-- catalog: Product[] - массив всех товаров магазина
-- order: IOrder - данные для оформления заказа
-- formErrors: FormErrors = {} - хранит различные ошибки формы
+- `basket: string[]` - массив ID товаров в корзине
+- `catalog: Product[]` - массив всех товаров магазина
+- `order: IOrder` - данные для оформления заказа
+- `formErrors: FormErrors` - хранит различные ошибки формы
 
 Класс предоставляет слелующий набор методов:
-- setCatalog(items: IProduct[]) - устанавливает каталог товаров интернет-магазина
-- addProduct(id: string) - добавляет товар в корзину
-- removeProduct(id: string) - удаляет товар из корзины
-- clearBasket() - очищает корзину
-- getTotalPrice() - возвращает сумму цен товаров в корзине
-- inBasket(id: string) - проверяет, находится ли товар в корзине
-- clearOrder() - очищает данные заказа
-- setOrderField(field: keyof IOrderForm, value: string) - устанавливает поле заказа
-- setContactField(field: keyof IContactForm, value: string) - устанавливает поле конактов
-- validateOrder() - выполняет валидацию данных заказа
-- validateContacts() - выполняет валидацию данных контактов
+- `setCatalog(items: IProduct[])` - устанавливает каталог товаров интернет-магазина
+- `addProduct(id: string)` - добавляет товар в корзину
+- `removeProduct(id: string)` - удаляет товар из корзины
+- `clearBasket()` - очищает корзину
+- `getTotalPrice()` - возвращает сумму цен товаров в корзине
+- `inBasket(id: string)` - проверяет, находится ли товар в корзине
+- `clearOrder()` - очищает данные заказа
+- `setOrderField(field: keyof IOrderForm, value: string)` - устанавливает поле заказа
+- `setContactField(field: keyof IContactForm, value: string)` - устанавливает поле конактов
+- `validateOrder()` - выполняет валидацию данных заказа
+- `validateContacts()` - выполняет валидацию данных контактов
 
 ### Классы представления (View)
 
 #### Класс Card 
 Отвечает за отображение карточки на главной странице сайта.
-- constructor(container: HTMLElement, actions?: ICardActions) - конструктор принимает DOM-элемент темплейта и действия с карточками, в соотвествии с интерфейсом ICardActions.
+- `constructor(container: HTMLElement, actions?: ICardActions)` - конструктор принимает DOM-элемент темплейта и действия с карточками, в соотвествии с интерфейсом ICardActions.
 
 Поля класса:
-- _title: HTMLElement - разметка заголовка карточки.
-- _image: HTMLImageElement - разметка изображения карточки.
-- _category: HTMLElement - разметка категории карточки.
-- _price: HTMLElement - разметка цены карточки.
-- _button - кнопка карточки
+- `_title: HTMLElement` - разметка заголовка карточки.
+- `_image: HTMLImageElement` - разметка изображения карточки.
+- `_category: HTMLElement` - разметка категории карточки.
+- `_price: HTMLElement` - разметка цены карточки.
+- `_button` - кнопка карточки
 
 Методы:
-- set title(value: string) - устанавливает заголовок карточки
-- set category(value: string) - устанавливает категорию карточки
-- set image(value: string) - устанавливает картинку товара в карточке
-- set price(value: number | null) - устанавливает цену карточки
+- `set title(value: string)` - устанавливает заголовок карточки
+- `set category(value: string)` - устанавливает категорию карточки
+- `set image(value: string)` - устанавливает картинку товара в карточке
+- `set price(value: number | null)` - устанавливает цену карточки
 
 #### CardPreview
 Отвечает за подробный обзор данных товара. Расширяет класс Card. Имеет те же аргументы в конструктуре, что и в классе Card.
 
 Поля класса: 
-- set description(value: string) - устанавливает подробное описание товара.
-- set selected(value: boolean) - передаёт информацию, есть ли товар в корзине. В зависимости от значения меня кнопку добавления в корзину на удаление товара из неё.
+- `set description(value: string)` - устанавливает подробное описание товара.
+- `set selected(value: boolean)` - передаёт информацию, есть ли товар в корзине. В зависимости от значения меня кнопку добавления в корзину на удаление товара из неё.
 
 #### Класс CardBasket
 Отвечает за отображение товара в корзине. Имеет те же аргументы в конструктуре, что и в классе Card.
 
 Поля класса:
-- _index: HTMLElement - разметка номера товара в корзине.
-- _title: HTMLElement - разметка заголовка товара.
-- _price: HTMLElement - разметка цены товара.
-- _delete: HTMLButtonElement - кнопка удаления товара из корзины.
+- `_index: HTMLElement` - разметка номера товара в корзине.
+- `_title: HTMLElement` - разметка заголовка товара.
+- `_price: HTMLElement` - разметка цены товара.
+- `_delete: HTMLButtonElement` - кнопка удаления товара из корзины.
 
 Методы класса:
-- set index(value: number) - устанавливает номер товара в корзине
-- set title(value: string) - устанавливает название товара в корзине.
-- set price(value: number) - устанавливает цену товара в корзине.
+- `set index(value: number)` - устанавливает номер товара в корзине
+- `set title(value: string)` - устанавливает название товара в корзине.
+- `set price(value: number)` - устанавливает цену товара в корзине.
 
 #### Класс Page
 Отвечает за отображение всей страницы интернет-магазина. 
 
-- constructor(container: HTMLElement, protected events: IEvents) - принимает элемент страницы и ивенты.
+- `constructor(container: HTMLElement, protected events: IEvents)` - принимает элемент страницы и ивенты.
 
 Поля класса: 
-- _counter: HTMLElement - счётчик товаров в корзине
-- _catalog: HTMLElement - каталог товаров в корзине
-- _wrapper: HTMLElement - обёртка страницы
-- _basket: HTMLElement - кнопка корзины на странице
+- `_counter: HTMLElement` - счётчик товаров в корзине
+- `_catalog: HTMLElement` - каталог товаров в корзине
+- `_wrapper: HTMLElement` - обёртка страницы
+- `_basket: HTMLElement` - кнопка корзины на странице
 
 Методы класса:
-- set counter(value: number) - устанавливает количество товаров в счётчике корзины
-- set catalog(items: HTMLElement[]) - устанавливает товары в каталоге
-- set locked(value: boolean) - блокирует прокрутку страницы
+- `set counter(value: number)` - устанавливает количество товаров в счётчике корзины
+- `set catalog(items: HTMLElement[])` - устанавливает товары в каталоге
+- `set locked(value: boolean)` - блокирует прокрутку страницы
 
 #### Класс Basket
 Отвечает за отображение корзины в интернет-магазине.
 
-- constructor(container: HTMLElement, protected events: EventEmitter) - принимает элемент страницы и ивенты.
+- `constructor(container: HTMLElement, protected events: EventEmitter)` - принимает элемент страницы и ивенты.
 
 Поля класса:
-- _list: HTMLElement - разметка списка товаров
-- _total: HTMLElement - разметка суммы товаров
-- _button: HTMLButtonElement - кнопка оформления заказа
+- `_list: HTMLElement` - разметка списка товаров
+- `_total: HTMLElement` - разметка суммы товаров
+- `_button: HTMLButtonElement` - кнопка оформления заказа
 
 Методы класса:
-- set items(items: HTMLElement[]) - устанавливает товары в корзине
-- set total(total: number) - устнавливает сумму товаров
+- `set items(items: HTMLElement[])` - устанавливает товары в корзине
+- `set total(total: number)` - устнавливает сумму товаров
 
 #### Класс Form
 Необходим для создания форм. 
 
-constructor(protected container: HTMLFormElement, protected events: IEvents) - принимает элемент формы страницы и ивенты.
+- `constructor(protected container: HTMLFormElement, protected events: IEvents)` - принимает элемент формы страницы и ивенты.
 
 Поля класса:
-- _submit: HTMLButtonElement - кнопка отправки формы
-- _errors: HTMLElement - разметка ошибок валидации
+- `_submit: HTMLButtonElement` - кнопка отправки формы
+- `_errors: HTMLElement` - разметка ошибок валидации
 
 Методы класса:
-- protected onInputChange(field: keyof T, value: string) - создаёт событие изменения поля в форме
-- set valid(value: boolean) - устанавливает валидность формы.
-- set errors(value: string) - устанавливает ошибки валидации формы
-- render(state: Partial<T> & IFormState) - отрисовка формы
+- `protected onInputChange(field: keyof T, value: string)` - создаёт событие изменения поля в форме
+- `set valid(value: boolean)` - устанавливает валидность формы.
+- `set errors(value: string)` - устанавливает ошибки валидации формы
+- `render(state: Partial<T> & IFormState)` - отрисовка формы
 
 #### Класс FormOrder 
 Отвечает за отображение формы, связанной с заказом.
 
-- constructor(container: HTMLFormElement, events: IEvents) - принимает элемент формы страницы и ивенты.
+- `constructor(container: HTMLFormElement, events: IEvents)` - принимает элемент формы страницы и ивенты.
 
 Поля класса:
-- _cardButton: HTMLButtonElement - кнопка оплаты картой
-- _cashButton: HTMLButtonElement - кнопка оплаты наличными (при получении)
+- `_cardButton: HTMLButtonElement` - кнопка оплаты картой
+- `_cashButton: HTMLButtonElement` - кнопка оплаты наличными (при получении)
 
 Методы класса:
-- set payment(value: string) - устанавливает метод оплаты
-- set address(value: string) - устанавливает адресс заказа
+- `set payment(value: string)` - устанавливает метод оплаты
+- `set address(value: string)` - устанавливает адресс заказа
 
 #### Класс ContactsForm
 Отвечает за отображение формы, связанной с контактами заказчика.
 
-- constructor(container: HTMLFormElement, events: IEvents) - принимает элемент формы страницы и ивенты.
+- `constructor(container: HTMLFormElement, events: IEvents)` - принимает элемент формы страницы и ивенты.
 
 Методы класса:
-- set phone(value: string) - устанавливает телефон заказчика
-- set email(value: string) - устанавливает электронную почту заказчика
+- `set phone(value: string)` - устанавливает телефон заказчика
+- `set email(value: string)` - устанавливает электронную почту заказчика
+
+#### Класс Success
+Необходим для показа успешного оформления заказа.
+- `constructor(container: HTMLElement, actions: ISuccessActions)` - принимает элемент страницы и действия.
+
+Поля класса:
+- `_closeButton: HTMLButtonElement` - кнопка закрытия окна
+- `_description: HTMLElement` - описание заказа с общей ценой
+
+Методы класса:
+- `set total(value: number)` - устанавливает описание с ценой
 
 #### Класс Modal
 Класс для создания модальных окон в приложении.
-- constructor(container: HTMLElement, protected events: IEvents) - принимает элемент страницы и ивенты.
+- `constructor(container: HTMLElement, protected events: IEvents)` - принимает элемент страницы и ивенты.
 
 Поля класса:
-- closeButton: HTMLButtonElement - кнопка для закрытия модального окна
-- _content: HTMLElement - разметка контента модального окна
+- `closeButton: HTMLButtonElement` - кнопка для закрытия модального окна
+- `_content: HTMLElement` - разметка контента модального окна
 
 Методы:
-- open() - открыть модальное окно
-- close() - закрыть модальное окно
-- render(data: IModalData): HTMLElement - отрисовка контента и открытие модального окна
+- `open()` - открыть модальное окно
+- `close()` - закрыть модальное окно
+- `render(data: IModalData): HTMLElement` - отрисовка контента и открытие модального окна
+
+### Слой коммуникации (Presenter)
+
+#### Класс WebLarekAPI 
+Класс для работы с бэкендом интернет-магазина.
+- `constructor(cdn: string, baseUrl: string, options?: RequestInit)` - принимает CDN URL и API URL сервера, а также настройки.
+
+Поля класса:
+- `cdn: string` - хранит CDN URL
+
+Методы класса:
+- `getProducts(): Promise<IProduct[]>` -
+получить список товаров с бэкенда
+- `orderProducts(order: IOrder): Promise<IOrderResult>` - отправить сформированный заказ на бэкенд
+
+## Взаимодействие копмонентов
+Код, описывающий взаимодействие слоёв данных и представления находится в файле `index.ts`, выполняющий роль презентера.
+Взаимодействие происходит за счёт событий, создающихся с помощью брокера событий и их обработчиков, описанных в файле `index.ts`.
+
+Список всех событий в приложении:
+- `items:changed` - изменение массива товаров в каталоге
+- `card:select` - выбор карточки пользователем
+- `basket:open` - открытие корзины
+- `basket:changed` - измение состояния корзины
+- `order:open` - открытие формы заказа
+- `order:submit` - отправка формы заказа
+- `orderFormErrors:change` - создаётся при валидации формы заказа
+- `order.{поле_формы}:change` - изменение данных полей формы заказа
+- `contacts:submit` - отправка формы контактов
+- `contactsFormErrors:change` - создаётся при валидации формы контактов
+- `contacts.{поле_формы}:change` - изменение данных полей формы контактов
+- `modal:open` - открытие модального окна
+- `modal:close` - закрытие модального окна
+
+### Типы данных
+
+```ts
+
+interface IProduct { // Данные товара
+	id: string; // id товара
+	description: string; // описание товара
+	image: string; // ссылка на картинку товара
+	title: string; // название товара
+	category: string; // категория товара
+	price: number | null; // цена товара
+}
+
+interface IAppState {  // данные магазина
+	catalog: IProduct[]; // список товара
+	basket: string[]; // массив id товаров в корзине
+	order: IOrder | null; // заказ
+}
+
+interface IOrderForm { // форма заказа
+	payment: string; // способ заказа
+	address: string; // адрес, куда должен прийти заказ
+}
+
+interface IContactForm { // форма контактов
+	email: string; // эл. почта заказчика
+	phone: string; // телефон заказчика
+}
+
+interface IOrder extends IOrderForm, IContactForm { // данные заказа для отправки на сервер
+	items: string[]; // список заказанных товаров
+	total: number; // общая цена
+}
+
+interface IOrderResult { // Заказа на сервера
+	id: string; // id заказа
+}
+
+type FormErrors = Partial<Record<keyof IOrder, string>>; // ошибки формы 
+
+```

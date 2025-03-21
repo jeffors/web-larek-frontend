@@ -2,7 +2,7 @@ import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
 interface ISuccess {
-  description: number;
+  total: number;
 }
 
 interface ISuccessActions {
@@ -24,7 +24,7 @@ export class Success extends Component<ISuccess> {
     }
   }
 
-  set description(value: number) {
+  set total(value: number) {
     this.setText(this._description, `Списано ${value} синапсов`)
   }
 }

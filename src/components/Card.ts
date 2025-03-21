@@ -37,14 +37,6 @@ export class Card extends Component<ICard> {
 		}
 	}
 
-	set id(value: string) {
-		this.container.dataset.id = value;
-	}
-
-	get id(): string {
-		return this.container.dataset.id || '';
-	}
-
 	set title(value: string) {
 		this.setText(this._title, value);
 	}
@@ -53,19 +45,19 @@ export class Card extends Component<ICard> {
 		this.setText(this._category, value);
 		switch (value) {
 			case 'софт-скил':
-				this._category.classList.add('card__category_soft');
+				this.toggleClass(this._category, 'card__category_soft', true)
 				break;
 			case 'другое':
-				this._category.classList.add('card__category_other');
+				this.toggleClass(this._category, 'card__category_other', true)
 				break;
 			case 'дополнительное':
-				this._category.classList.add('card__category_additional');
+				this.toggleClass(this._category, 'card__category_additional', true)
 				break;
 			case 'кнопка':
-				this._category.classList.add('card__category_button');
+				this.toggleClass(this._category, 'card__category_button', true)
 				break;
 			case 'хард-скил':
-				this._category.classList.add('card__category_hard');
+				this.toggleClass(this._category, 'card__category_hard', true)
 				break;
 			default:
 				break;
@@ -81,7 +73,7 @@ export class Card extends Component<ICard> {
 			this.setText(this._price, `${value} синапсов`);
 		} else {
 			if (this._button) {
-				this._button.setAttribute('disabled', '');
+				this.setDisabled(this._button, true)
 				this.setText(this._button, 'Недоступно для покупки');
 			}
 
